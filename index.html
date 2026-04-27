@@ -2,908 +2,684 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MultiGym — Gestion intelligente de votre salle</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>MultiGym — Intelligence pour votre salle de sport</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-  :root {
-    --orange: #FF5F1F;
-    --orange-light: #FF8050;
-    --orange-glow: rgba(255, 95, 31, 0.35);
-    --black: #080808;
-    --dark: #111111;
-    --dark2: #1a1a1a;
-    --gray: #2a2a2a;
-    --text: #f5f5f5;
-    --text-muted: #888;
-  }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--black);
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    overflow-x: hidden;
-  }
-
-  /* NAV */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.2rem 5%;
-    background: rgba(8,8,8,0.85);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(255,95,31,0.15);
-  }
-
-  .logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2rem;
-    letter-spacing: 3px;
-    color: var(--text);
-  }
-
-  .logo span { color: var(--orange); }
-
-  .nav-links {
-    display: flex;
-    gap: 2.5rem;
-    list-style: none;
-  }
-
-  .nav-links a {
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 0.85rem;
-    font-weight: 500;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    transition: color 0.3s;
-  }
-
-  .nav-links a:hover { color: var(--orange); }
-
-  .nav-buttons { display: flex; gap: 1rem; align-items: center; }
-
-  .btn-login {
-    background: transparent;
-    border: 1px solid rgba(255,95,31,0.5);
-    color: var(--orange);
-    padding: 0.55rem 1.4rem;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    cursor: pointer;
-    letter-spacing: 0.5px;
-    transition: all 0.3s;
-    text-decoration: none;
-  }
-
-  .btn-login:hover {
-    background: rgba(255,95,31,0.1);
-    border-color: var(--orange);
-  }
-
-  .btn-cta {
-    background: var(--orange);
-    border: none;
-    color: white;
-    padding: 0.6rem 1.6rem;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    letter-spacing: 0.5px;
-    transition: all 0.3s;
-    text-decoration: none;
-    box-shadow: 0 4px 20px var(--orange-glow);
-  }
-
-  .btn-cta:hover {
-    background: var(--orange-light);
-    transform: translateY(-1px);
-    box-shadow: 0 8px 30px var(--orange-glow);
-  }
-
-  /* HERO */
-  .hero {
-    min-height: 100vh;
-    position: relative;
-    display: flex;
-    align-items: center;
-    padding: 0 5%;
-    overflow: hidden;
-  }
-
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 60% 60% at 70% 50%, rgba(255,95,31,0.12) 0%, transparent 60%),
-      radial-gradient(ellipse 40% 40% at 10% 80%, rgba(255,95,31,0.07) 0%, transparent 50%),
-      linear-gradient(135deg, #080808 0%, #111111 50%, #0d0d0d 100%);
-  }
-
-  .hero-grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(255,95,31,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,95,31,0.04) 1px, transparent 1px);
-    background-size: 60px 60px;
-  }
-
-  .hero-content {
-    position: relative;
-    z-index: 2;
-    max-width: 700px;
-  }
-
-  .hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(255,95,31,0.1);
-    border: 1px solid rgba(255,95,31,0.3);
-    border-radius: 100px;
-    padding: 0.4rem 1rem;
-    font-size: 0.78rem;
-    color: var(--orange-light);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-bottom: 2rem;
-  }
-
-  .dot {
-    width: 6px; height: 6px;
-    background: var(--orange);
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(0.8); }
-  }
-
-  .hero h1 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(3.5rem, 8vw, 7rem);
-    line-height: 0.95;
-    letter-spacing: 2px;
-    margin-bottom: 1.5rem;
-  }
-
-  .hero h1 .accent { color: var(--orange); }
-
-  .hero h1 .outline {
-    -webkit-text-stroke: 2px rgba(255,95,31,0.5);
-    color: transparent;
-  }
-
-  .hero-desc {
-    font-size: 1.1rem;
-    color: var(--text-muted);
-    line-height: 1.7;
-    max-width: 520px;
-    margin-bottom: 2.5rem;
-    font-weight: 300;
-  }
-
-  .hero-desc strong { color: var(--text); font-weight: 500; }
-
-  .hero-actions {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-
-  .btn-hero-cta {
-    background: var(--orange);
-    border: none;
-    color: white;
-    padding: 1rem 2.2rem;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    letter-spacing: 0.5px;
-    transition: all 0.3s;
-    box-shadow: 0 6px 30px var(--orange-glow);
-    text-decoration: none;
-    display: inline-block;
-  }
-
-  .btn-hero-cta:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 40px var(--orange-glow);
-    background: var(--orange-light);
-  }
-
-  .btn-hero-login {
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.15);
-    color: var(--text);
-    padding: 1rem 2rem;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    font-weight: 400;
-    cursor: pointer;
-    transition: all 0.3s;
-    text-decoration: none;
-    display: inline-block;
-  }
-
-  .btn-hero-login:hover {
-    border-color: rgba(255,95,31,0.5);
-    color: var(--orange-light);
-    background: rgba(255,95,31,0.05);
-  }
-
-  .hero-stats {
-    display: flex;
-    gap: 3rem;
-    margin-top: 4rem;
-    padding-top: 2.5rem;
-    border-top: 1px solid rgba(255,255,255,0.06);
-  }
-
-  .stat-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2.5rem;
-    color: var(--orange);
-    letter-spacing: 2px;
-  }
-
-  .stat-label {
-    font-size: 0.78rem;
-    color: var(--text-muted);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-top: 2px;
-  }
-
-  /* HERO VISUAL */
-  .hero-visual {
-    position: absolute;
-    right: 5%;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 42%;
-    z-index: 2;
-  }
-
-  .dashboard-card {
-    background: rgba(26,26,26,0.9);
-    border: 1px solid rgba(255,95,31,0.2);
-    border-radius: 16px;
-    padding: 1.5rem;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 60px rgba(255,95,31,0.08);
-  }
-
-  .card-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1.2rem;
-  }
-
-  .card-title {
-    font-size: 0.78rem;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-
-  .card-badge {
-    background: rgba(255,95,31,0.15);
-    color: var(--orange);
-    border: 1px solid rgba(255,95,31,0.3);
-    padding: 3px 10px;
-    border-radius: 100px;
-    font-size: 0.72rem;
-    font-weight: 500;
-  }
-
-  .revenue-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2.8rem;
-    color: var(--text);
-    letter-spacing: 2px;
-    margin-bottom: 0.3rem;
-  }
-
-  .revenue-change {
-    font-size: 0.8rem;
-    color: #4ade80;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    margin-bottom: 1.2rem;
-  }
-
-  /* Bar chart */
-  .bar-chart {
-    display: flex;
-    align-items: flex-end;
-    gap: 6px;
-    height: 80px;
-    margin-bottom: 1.5rem;
-  }
-
-  .bar {
-    flex: 1;
-    border-radius: 4px 4px 0 0;
-    background: rgba(255,95,31,0.2);
-    transition: background 0.3s;
-  }
-
-  .bar.active { background: var(--orange); }
-  .bar:hover { background: var(--orange-light); }
-
-  .mini-cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 1rem;
-  }
-
-  .mini-card {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 10px;
-    padding: 1rem;
-  }
-
-  .mini-card-label {
-    font-size: 0.72rem;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 0.5rem;
-  }
-
-  .mini-card-val {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.6rem;
-    letter-spacing: 1px;
-  }
-
-  .mini-card-val.orange { color: var(--orange); }
-  .mini-card-val.green { color: #4ade80; }
-
-  /* FEATURES */
-  .section {
-    padding: 8rem 5%;
-  }
-
-  .section-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--orange);
-    margin-bottom: 1rem;
-  }
-
-  .section-tag::before {
-    content: '';
-    display: block;
-    width: 24px;
-    height: 1px;
-    background: var(--orange);
-  }
-
-  .section-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    line-height: 1;
-    letter-spacing: 2px;
-    margin-bottom: 1rem;
-  }
-
-  .section-title .orange { color: var(--orange); }
-
-  .section-sub {
-    font-size: 1rem;
-    color: var(--text-muted);
-    max-width: 500px;
-    line-height: 1.7;
-    font-weight: 300;
-  }
-
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5px;
-    margin-top: 4rem;
-    background: rgba(255,95,31,0.1);
-    border: 1px solid rgba(255,95,31,0.1);
-    border-radius: 16px;
-    overflow: hidden;
-  }
-
-  .feature-item {
-    background: var(--dark);
-    padding: 2.5rem 2rem;
-    transition: background 0.3s;
-  }
-
-  .feature-item:hover { background: var(--dark2); }
-
-  .feature-icon {
-    width: 48px;
-    height: 48px;
-    background: rgba(255,95,31,0.1);
-    border: 1px solid rgba(255,95,31,0.2);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.3rem;
-    margin-bottom: 1.2rem;
-  }
-
-  .feature-name {
-    font-weight: 600;
-    font-size: 1rem;
-    margin-bottom: 0.6rem;
-    color: var(--text);
-  }
-
-  .feature-desc {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    line-height: 1.6;
-    font-weight: 300;
-  }
-
-  /* PRICING */
-  .pricing-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    margin-top: 4rem;
-  }
-
-  .pricing-card {
-    background: var(--dark2);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 16px;
-    padding: 2.5rem 2rem;
-    transition: all 0.3s;
-    position: relative;
-  }
-
-  .pricing-card:hover {
-    border-color: rgba(255,95,31,0.3);
-    transform: translateY(-4px);
-  }
-
-  .pricing-card.featured {
-    background: linear-gradient(135deg, rgba(255,95,31,0.12) 0%, rgba(26,26,26,1) 60%);
-    border: 1px solid rgba(255,95,31,0.4);
-  }
-
-  .popular-badge {
-    position: absolute;
-    top: -12px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--orange);
-    color: white;
-    font-size: 0.72rem;
-    font-weight: 600;
-    padding: 4px 16px;
-    border-radius: 100px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-
-  .plan-name {
-    font-size: 0.78rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--text-muted);
-    margin-bottom: 0.8rem;
-  }
-
-  .plan-price {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 3rem;
-    color: var(--text);
-    letter-spacing: 2px;
-    margin-bottom: 0.3rem;
-  }
-
-  .plan-price span {
-    font-family: 'Inter', sans-serif;
-    font-size: 1rem;
-    color: var(--text-muted);
-    font-weight: 300;
-    letter-spacing: 0;
-  }
-
-  .plan-desc {
-    font-size: 0.82rem;
-    color: var(--text-muted);
-    margin-bottom: 1.5rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-  }
-
-  .plan-features {
-    list-style: none;
-    margin-bottom: 2rem;
-  }
-
-  .plan-features li {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    padding: 0.45rem 0;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .plan-features li::before {
-    content: '';
-    display: block;
-    width: 14px;
-    height: 14px;
-    background: rgba(255,95,31,0.2);
-    border: 1px solid rgba(255,95,31,0.4);
-    border-radius: 50%;
-    flex-shrink: 0;
-    position: relative;
-  }
-
-  .plan-features li.active { color: var(--text); }
-
-  .plan-features li.active::before {
-    background: var(--orange);
-    border-color: var(--orange);
-  }
-
-  .btn-plan {
-    width: 100%;
-    padding: 0.85rem;
-    border-radius: 8px;
-    font-size: 0.88rem;
-    font-weight: 600;
-    cursor: pointer;
-    letter-spacing: 0.5px;
-    transition: all 0.3s;
-    border: 1px solid rgba(255,95,31,0.4);
-    color: var(--orange);
-    background: transparent;
-  }
-
-  .btn-plan.featured-btn {
-    background: var(--orange);
-    color: white;
-    border-color: var(--orange);
-    box-shadow: 0 4px 20px var(--orange-glow);
-  }
-
-  .btn-plan:hover {
-    background: rgba(255,95,31,0.1);
-  }
-
-  .btn-plan.featured-btn:hover {
-    background: var(--orange-light);
-    box-shadow: 0 8px 30px var(--orange-glow);
-  }
-
-  /* CTA SECTION */
-  .cta-section {
-    margin: 0 5% 8rem;
-    background: linear-gradient(135deg, rgba(255,95,31,0.15) 0%, rgba(26,26,26,0.8) 100%);
-    border: 1px solid rgba(255,95,31,0.25);
-    border-radius: 24px;
-    padding: 6rem 5%;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .cta-section::before {
-    content: '';
-    position: absolute;
-    top: -100px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(255,95,31,0.15) 0%, transparent 60%);
-    pointer-events: none;
-  }
-
-  .cta-section h2 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(2.5rem, 5vw, 4.5rem);
-    letter-spacing: 3px;
-    margin-bottom: 1rem;
-    position: relative;
-  }
-
-  .cta-section h2 .orange { color: var(--orange); }
-
-  .cta-section p {
-    font-size: 1rem;
-    color: var(--text-muted);
-    max-width: 450px;
-    margin: 0 auto 2.5rem;
-    line-height: 1.7;
-    font-weight: 300;
-  }
-
-  .cta-buttons {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  /* FOOTER */
-  footer {
-    border-top: 1px solid rgba(255,255,255,0.05);
-    padding: 3rem 5%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-
-  .footer-logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.5rem;
-    letter-spacing: 3px;
-  }
-
-  .footer-logo span { color: var(--orange); }
-
-  .footer-copy {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-  }
-
-  @media (max-width: 900px) {
-    .hero-visual { display: none; }
-    .features-grid { grid-template-columns: 1fr; }
-    .pricing-grid { grid-template-columns: 1fr; }
-    .nav-links { display: none; }
-  }
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+
+:root{
+  --y1:#FFB300;--y2:#FF8C00;--o1:#FF6200;
+  --grad:linear-gradient(135deg,#FFB300,#FF6200);
+  --glow:0 0 40px rgba(255,160,0,.35);
+  --glow-sm:0 0 20px rgba(255,160,0,.25);
+  --bg:#050506;--bg2:#0D0D0F;--bg3:#141416;--bg4:#1C1C1F;
+  --border:rgba(255,160,0,.13);--border-b:rgba(255,160,0,.4);
+  --text:#F8F8FA;--muted:#6A6A78;--muted2:#9898AA;
+}
+
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--y2);border-radius:2px}
+
+/* BG */
+.bg-mesh{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(255,160,0,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,160,0,.025) 1px,transparent 1px);
+  background-size:70px 70px}
+.orb1{position:fixed;top:-250px;right:-200px;width:700px;height:700px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,160,0,.09) 0%,transparent 60%);pointer-events:none;z-index:0}
+.orb2{position:fixed;bottom:-300px;left:-200px;width:700px;height:700px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,100,0,.06) 0%,transparent 60%);pointer-events:none;z-index:0}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:68px;
+  display:flex;align-items:center;justify-content:space-between;padding:0 5%;
+  background:rgba(5,5,6,.75);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);transition:all .3s}
+nav.scrolled{background:rgba(5,5,6,.96);border-bottom-color:var(--border-b)}
+
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-icon{width:34px;height:34px;background:var(--grad);border-radius:9px;
+  display:flex;align-items:center;justify-content:center;font-size:17px;box-shadow:var(--glow-sm)}
+.logo-txt{font-family:'Barlow Condensed',sans-serif;font-size:1.65rem;font-weight:900;letter-spacing:3px;color:var(--text)}
+.logo-txt span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{color:var(--muted2);text-decoration:none;font-size:.82rem;font-weight:500;letter-spacing:.3px;transition:color .3s}
+.nav-links a:hover{color:var(--y1)}
+.nav-actions{display:flex;align-items:center;gap:12px}
+
+.btn-ghost{background:transparent;border:1px solid var(--border-b);color:var(--y1);padding:8px 20px;
+  border-radius:8px;font-size:.82rem;font-weight:500;cursor:pointer;transition:all .3s;
+  text-decoration:none;font-family:'DM Sans',sans-serif;white-space:nowrap}
+.btn-ghost:hover{background:rgba(255,160,0,.07);box-shadow:var(--glow-sm)}
+
+.btn-primary{background:var(--grad);border:none;color:#060606;padding:9px 20px;
+  border-radius:8px;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .3s;
+  text-decoration:none;font-family:'DM Sans',sans-serif;box-shadow:0 4px 20px rgba(255,140,0,.3);white-space:nowrap}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(255,140,0,.45)}
+
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.hamburger span{display:block;width:24px;height:2px;background:var(--text);border-radius:2px;transition:all .3s}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+.mob-menu{position:fixed;top:68px;left:0;right:0;background:rgba(5,5,6,.98);
+  backdrop-filter:blur(24px);border-bottom:1px solid var(--border);z-index:999;
+  padding:1.5rem 5%;display:flex;flex-direction:column;gap:.9rem;
+  transform:translateY(-110%);opacity:0;transition:all .35s cubic-bezier(.4,0,.2,1)}
+.mob-menu.open{transform:translateY(0);opacity:1}
+.mob-menu a{color:var(--muted2);text-decoration:none;font-size:1rem;
+  padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.04);transition:color .3s}
+.mob-menu a:hover{color:var(--y1)}
+.mob-btns{display:flex;gap:10px;padding-top:.5rem}
+.mob-btns .btn-ghost,.mob-btns .btn-primary{flex:1;text-align:center}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding:80px 5% 60px;position:relative;z-index:1}
+.hero-inner{width:100%;max-width:1300px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+
+.hero-badge{display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,179,0,.07);border:1px solid rgba(255,179,0,.22);
+  border-radius:100px;padding:6px 14px;font-size:.7rem;font-weight:500;
+  color:var(--y1);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:1.8rem;
+  animation:fadeUp .8s ease both}
+
+.pulse{width:7px;height:7px;background:#4ADE80;border-radius:50%;box-shadow:0 0 8px #4ADE80;animation:blink 1.5s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+.hero-h1{font-family:'Barlow Condensed',sans-serif;font-size:clamp(3.5rem,6.5vw,6.2rem);
+  font-weight:900;line-height:.93;letter-spacing:2px;margin-bottom:1.5rem;animation:fadeUp .8s .1s ease both}
+.line-grad{display:block;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.line-out{display:block;-webkit-text-stroke:2px rgba(255,179,0,.35);color:transparent}
+
+.hero-p{font-size:1rem;color:var(--muted2);line-height:1.78;max-width:480px;margin-bottom:2.2rem;
+  font-weight:300;animation:fadeUp .8s .2s ease both}
+.hero-p strong{color:var(--text);font-weight:500}
+
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:3rem;animation:fadeUp .8s .3s ease both}
+.btn-xl{padding:14px 28px;border-radius:10px;font-size:.9rem;font-weight:700;letter-spacing:.2px}
+.btn-ghost-xl{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:var(--text);
+  padding:14px 24px;border-radius:10px;font-size:.9rem;font-weight:400;cursor:pointer;transition:all .3s;
+  text-decoration:none;font-family:'DM Sans',sans-serif;display:inline-flex;align-items:center;gap:8px}
+.btn-ghost-xl:hover{border-color:rgba(255,179,0,.4);color:var(--y1);background:rgba(255,179,0,.04)}
+
+.hero-stats{display:flex;gap:2.5rem;animation:fadeUp .8s .4s ease both}
+.stat{border-left:2px solid rgba(255,179,0,.3);padding-left:1rem}
+.stat-n{font-family:'Barlow Condensed',sans-serif;font-size:2rem;font-weight:900;letter-spacing:1px;
+  background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-l{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+
+/* DASHBOARD */
+.hero-visual{animation:slideIn 1s .4s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideIn{from{opacity:0;transform:translateX(30px) scale(.97)}to{opacity:1;transform:translateX(0) scale(1)}}
+
+.dash-wrap{background:rgba(18,18,20,.85);border:1px solid rgba(255,160,0,.22);border-radius:20px;
+  padding:22px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  box-shadow:0 0 0 1px rgba(255,255,255,.03) inset,0 40px 80px rgba(0,0,0,.7),0 0 60px rgba(255,140,0,.07);
+  position:relative;overflow:hidden}
+.dash-wrap::before{content:'';position:absolute;top:-1px;left:10%;right:10%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,179,0,.55),transparent)}
+
+.dash-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.dash-dots{display:flex;gap:6px}
+.dd{width:10px;height:10px;border-radius:50%}
+.dd-r{background:#FF5F57}.dd-y{background:#FEBC2E}.dd-g{background:#28C840}
+.dash-title{font-size:.68rem;color:var(--muted);letter-spacing:1px;font-weight:500}
+.live-tag{display:flex;align-items:center;gap:5px;font-size:.65rem;color:#4ADE80;font-weight:600;
+  background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.2);padding:3px 10px;border-radius:100px}
+
+.rev-row{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:4px}
+.rev-label{font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.rev-num{font-family:'Barlow Condensed',sans-serif;font-size:2.3rem;font-weight:900;letter-spacing:1px;
+  background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+.rev-up{font-size:.72rem;color:#4ADE80;font-weight:500;margin-top:4px}
+.rev-period{font-size:.65rem;color:var(--muted)}
+
+/* SVG CHART AREAS */
+.chart-area{margin:14px 0 6px}
+.month-labels{display:flex;justify-content:space-between;padding:0 4px}
+.ml{font-size:.58rem;color:var(--muted);text-align:center;flex:1}
+
+.sparkline-area{margin:8px 0 12px}
+
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.kpi{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.055);
+  border-radius:10px;padding:11px 13px;transition:border-color .3s}
+.kpi:hover{border-color:rgba(255,160,0,.18)}
+.kpi-lbl{font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px}
+.kpi-val{font-family:'Barlow Condensed',sans-serif;font-size:1.45rem;font-weight:700;letter-spacing:.5px;line-height:1}
+.kv-amber{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.kv-green{color:#4ADE80}
+.kv-white{color:var(--text)}
+
+/* STRIP */
+.strip{position:relative;z-index:1;padding:22px 5%;
+  border-top:1px solid rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.04);
+  background:rgba(255,160,0,.018);display:flex;align-items:center;gap:2.5rem;overflow-x:auto}
+.strip::-webkit-scrollbar{display:none}
+.s-item{display:flex;align-items:center;gap:9px;white-space:nowrap;flex-shrink:0}
+.s-icon{font-size:1rem;opacity:.8}
+.s-txt{font-size:.78rem;color:var(--muted2);font-weight:400}
+.s-txt strong{color:var(--y1);font-weight:600}
+.s-sep{width:1px;height:18px;background:rgba(255,255,255,.07);flex-shrink:0}
+
+/* SECTIONS */
+.sec{position:relative;z-index:1;padding:100px 5%;max-width:1300px;margin:0 auto}
+.sec-eye{display:flex;align-items:center;gap:12px;margin-bottom:1.2rem}
+.eye-line{width:28px;height:2px;background:var(--grad);border-radius:1px}
+.eye-txt{font-size:.7rem;font-weight:600;color:var(--y1);text-transform:uppercase;letter-spacing:2px}
+.sec-h2{font-family:'Barlow Condensed',sans-serif;font-size:clamp(2.4rem,4.5vw,3.8rem);
+  font-weight:900;line-height:1;letter-spacing:2px;margin-bottom:1rem}
+.sec-h2 .g{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sec-sub{font-size:.97rem;color:var(--muted2);max-width:510px;line-height:1.75;font-weight:300}
+
+/* FEATURES */
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:4rem;
+  background:rgba(255,160,0,.08);border-radius:20px;overflow:hidden;border:1px solid rgba(255,160,0,.1)}
+.feat{background:var(--bg2);padding:2.5rem 2rem;transition:background .3s;position:relative;overflow:hidden}
+.feat::after{content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 0% 100%,rgba(255,160,0,.05) 0%,transparent 50%);opacity:0;transition:opacity .4s}
+.feat:hover{background:var(--bg3)}
+.feat:hover::after{opacity:1}
+.feat-ico{width:50px;height:50px;background:rgba(255,160,0,.07);border:1px solid rgba(255,160,0,.18);
+  border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;
+  margin-bottom:1.2rem;transition:all .3s}
+.feat:hover .feat-ico{background:rgba(255,160,0,.12);border-color:rgba(255,160,0,.38);
+  box-shadow:0 0 20px rgba(255,160,0,.14)}
+.feat-name{font-weight:600;font-size:.97rem;margin-bottom:.55rem}
+.feat-desc{font-size:.83rem;color:var(--muted2);line-height:1.65;font-weight:300}
+
+/* PRICING */
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:4rem}
+.price-card{background:var(--bg3);border:1px solid rgba(255,255,255,.06);border-radius:20px;
+  padding:2.5rem 2rem;transition:all .4s;position:relative}
+.price-card:hover{border-color:rgba(255,160,0,.28);transform:translateY(-6px);
+  box-shadow:0 24px 60px rgba(0,0,0,.4),0 0 40px rgba(255,140,0,.06)}
+.price-card.hot{background:linear-gradient(155deg,rgba(255,160,0,.09) 0%,var(--bg3) 55%);
+  border:1px solid rgba(255,160,0,.32);box-shadow:0 0 60px rgba(255,140,0,.07)}
+.hot-tag{position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+  background:var(--grad);color:#060606;font-size:.65rem;font-weight:800;
+  padding:5px 18px;border-radius:100px;letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap}
+.plan-tier{font-size:.68rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:1rem}
+.plan-price-row{display:flex;align-items:baseline;gap:4px;margin-bottom:.4rem}
+.plan-amt{font-family:'Barlow Condensed',sans-serif;font-size:2.9rem;font-weight:900;letter-spacing:1px;color:var(--text);line-height:1}
+.plan-cur{font-size:.76rem;color:var(--muted2);font-weight:300;align-self:flex-end;padding-bottom:3px}
+.plan-tag{font-size:.8rem;color:var(--muted2);margin-bottom:1.5rem;padding-bottom:1.4rem;
+  border-bottom:1px solid rgba(255,255,255,.05);font-weight:300}
+.plan-feats{list-style:none;margin-bottom:2rem;display:flex;flex-direction:column;gap:9px}
+.plan-feats li{display:flex;align-items:center;gap:10px;font-size:.83rem;color:var(--muted2);font-weight:300}
+.plan-feats li.on{color:var(--text)}
+.chk{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;font-size:9px;background:rgba(255,160,0,.12);border:1px solid rgba(255,160,0,.25);color:var(--y1)}
+.plan-feats li.on .chk{background:var(--grad);border:none;color:#060606;font-weight:900}
+
+.btn-outline{width:100%;padding:12px;border-radius:10px;font-size:.87rem;font-weight:600;cursor:pointer;
+  transition:all .3s;border:1px solid rgba(255,160,0,.32);color:var(--y1);background:transparent;font-family:'DM Sans',sans-serif}
+.btn-outline:hover{background:rgba(255,160,0,.06);border-color:var(--y1)}
+.btn-filled{width:100%;padding:12px;border-radius:10px;font-size:.87rem;font-weight:700;cursor:pointer;
+  transition:all .3s;border:none;color:#060606;background:var(--grad);font-family:'DM Sans',sans-serif;
+  box-shadow:0 4px 20px rgba(255,140,0,.3)}
+.btn-filled:hover{box-shadow:0 8px 30px rgba(255,140,0,.5);transform:translateY(-1px)}
+
+/* CTA */
+.cta-outer{position:relative;z-index:1;padding:0 5% 100px}
+.cta-box{background:linear-gradient(135deg,rgba(255,160,0,.09) 0%,rgba(13,13,15,.9) 60%);
+  border:1px solid rgba(255,160,0,.22);border-radius:28px;padding:80px 5%;text-align:center;
+  position:relative;overflow:hidden;max-width:1300px;margin:0 auto}
+.cta-box::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);
+  width:500px;height:500px;background:radial-gradient(circle,rgba(255,160,0,.11) 0%,transparent 60%);pointer-events:none}
+.cta-box::after{content:'MULTIGYM';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-family:'Barlow Condensed',sans-serif;font-size:12rem;font-weight:900;
+  letter-spacing:10px;color:rgba(255,160,0,.025);white-space:nowrap;pointer-events:none}
+.cta-box h2{font-family:'Barlow Condensed',sans-serif;font-size:clamp(2.6rem,5vw,4.2rem);
+  font-weight:900;letter-spacing:3px;margin-bottom:1rem;position:relative}
+.cta-box h2 .g{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.cta-box p{font-size:.97rem;color:var(--muted2);max-width:430px;margin:0 auto 2.5rem;line-height:1.72;font-weight:300;position:relative}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;position:relative}
+
+/* FOOTER */
+footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.04);
+  padding:38px 5%;display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:1rem;max-width:1300px;margin:0 auto}
+.foot-copy{font-size:.78rem;color:var(--muted)}
+.foot-copy span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:600}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+.reveal.vis{opacity:1;transform:none}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .hero-inner{grid-template-columns:1fr;gap:50px}
+  .hero-visual{max-width:560px;margin:0 auto}
+  .feat-grid{grid-template-columns:repeat(2,1fr)}
+  .price-grid{grid-template-columns:1fr;max-width:420px;margin-left:auto;margin-right:auto}
+}
+@media(max-width:768px){
+  .nav-links,.nav-actions{display:none}
+  .hamburger{display:flex}
+  .hero{padding:75px 4% 50px}
+  .hero-stats{gap:1.5rem}
+  .feat-grid{grid-template-columns:1fr;border-radius:16px}
+  .sec{padding:70px 4%}
+  .cta-outer{padding:0 4% 70px}
+  .cta-box{padding:55px 6%}
+  .cta-box::after{font-size:4rem}
+  footer{padding:28px 4%}
+}
+@media(max-width:480px){
+  .hero-h1{font-size:3.1rem}
+  .hero-btns{flex-direction:column}
+  .hero-btns a{width:100%;text-align:center;justify-content:center}
+  .hero-stats{gap:1.1rem}
+  .stat-n{font-size:1.6rem}
+  .rev-num{font-size:1.9rem}
+  .cta-btns{flex-direction:column}
+  .cta-btns a{width:100%;text-align:center}
+}
 </style>
 </head>
 <body>
+<div class="bg-mesh"></div>
+<div class="orb1"></div>
+<div class="orb2"></div>
 
 <!-- NAV -->
-<nav>
-  <div class="logo">MULTI<span>GYM</span></div>
+<nav id="nav">
+  <a href="#" class="nav-logo">
+    <div class="logo-icon">⚡</div>
+    <div class="logo-txt">MULTI<span>GYM</span></div>
+  </a>
   <ul class="nav-links">
     <li><a href="#features">Fonctionnalités</a></li>
     <li><a href="#pricing">Tarifs</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#">Démo</a></li>
   </ul>
-  <div class="nav-buttons">
-    <a href="#" class="btn-login">Connexion</a>
-    <a href="#" class="btn-cta">Commencez gratuitement</a>
+  <div class="nav-actions">
+    <a href="#" class="btn-ghost">Connexion</a>
+    <a href="#" class="btn-primary">Commencez gratuitement</a>
+  </div>
+  <div class="hamburger" id="ham" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
   </div>
 </nav>
 
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mobMenu">
+  <a href="#features" onclick="toggleMenu()">Fonctionnalités</a>
+  <a href="#pricing" onclick="toggleMenu()">Tarifs</a>
+  <a href="#" onclick="toggleMenu()">Démo</a>
+  <div class="mob-btns">
+    <a href="#" class="btn-ghost">Connexion</a>
+    <a href="#" class="btn-primary">Commencer</a>
+  </div>
+</div>
+
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-grid"></div>
-
-  <div class="hero-content">
-    <div class="hero-badge">
-      <div class="dot"></div>
-      Nouveau — Gestion intelligente
-    </div>
-
-    <h1>
-      GÉREZ<br>
-      VOTRE <span class="accent">GYM</span><br>
-      <span class="outline">AUTREMENT</span>
-    </h1>
-
-    <p class="hero-desc">
-      <strong>MultiGym</strong> est l'application web qui centralise la gestion, la comptabilité et l'analyse de votre salle de sport. Des <strong>graphiques professionnels</strong>, des rapports automatiques, une vue complète de votre business.
-    </p>
-
-    <div class="hero-actions">
-      <a href="#" class="btn-hero-cta">Commencez gratuitement</a>
-      <a href="#" class="btn-hero-login">Connexion →</a>
-    </div>
-
-    <div class="hero-stats">
-      <div>
-        <div class="stat-num">100%</div>
-        <div class="stat-label">Web & Mobile</div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge"><div class="pulse"></div>Disponible maintenant au Bénin</div>
+      <h1 class="hero-h1">
+        GÉREZ<br>
+        <span class="line-grad">VOTRE SALLE</span><br>
+        <span class="line-out">DE GYM</span>
+      </h1>
+      <p class="hero-p"><strong>MultiGym</strong> est l'application web intelligente pour la <strong>gestion complète</strong> et la <strong>comptabilité</strong> de votre salle de sport. Graphiques professionnels, analyses en temps réel, relances automatiques.</p>
+      <div class="hero-btns">
+        <a href="#" class="btn-primary btn-xl">Commencez gratuitement →</a>
+        <a href="#" class="btn-ghost-xl">▶ Voir une démo</a>
       </div>
-      <div>
-        <div class="stat-num">3</div>
-        <div class="stat-label">Formules disponibles</div>
-      </div>
-      <div>
-        <div class="stat-num">24/7</div>
-        <div class="stat-label">Accès en temps réel</div>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-n" data-target="100" data-suffix="%">0%</div><div class="stat-l">Web & Mobile</div></div>
+        <div class="stat"><div class="stat-n" data-target="3">0</div><div class="stat-l">Formules dispo</div></div>
+        <div class="stat"><div class="stat-n">24/7</div><div class="stat-l">Temps réel</div></div>
       </div>
     </div>
-  </div>
 
-  <!-- Dashboard Preview -->
-  <div class="hero-visual">
-    <div class="dashboard-card">
-      <div class="card-header">
-        <div class="card-title">Revenus du mois</div>
-        <div class="card-badge">● En direct</div>
-      </div>
-      <div class="revenue-num">847 500 FCFA</div>
-      <div class="revenue-change">▲ +18.4% vs mois dernier</div>
+    <!-- DASHBOARD CARD -->
+    <div class="hero-visual">
+      <div class="dash-wrap">
+        <div class="dash-top">
+          <div class="dash-dots"><div class="dd dd-r"></div><div class="dd dd-y"></div><div class="dd dd-g"></div></div>
+          <div class="dash-title">MULTIGYM DASHBOARD</div>
+          <div class="live-tag"><div class="pulse"></div>LIVE</div>
+        </div>
+        <div class="rev-row">
+          <div>
+            <div class="rev-label">Revenus du mois</div>
+            <div class="rev-num">847 500 FCFA</div>
+            <div class="rev-up">▲ +18.4% vs mois dernier</div>
+          </div>
+          <div class="rev-period">Avril 2026</div>
+        </div>
 
-      <div class="bar-chart">
-        <div class="bar" style="height:45%"></div>
-        <div class="bar" style="height:60%"></div>
-        <div class="bar" style="height:50%"></div>
-        <div class="bar" style="height:75%"></div>
-        <div class="bar" style="height:55%"></div>
-        <div class="bar" style="height:80%"></div>
-        <div class="bar" style="height:65%"></div>
-        <div class="bar active" style="height:100%"></div>
-      </div>
+        <!-- BAR CHART -->
+        <div class="chart-area">
+          <svg id="barSvg" width="100%" height="108" viewBox="0 0 360 108" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="bGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#FFB300"/><stop offset="100%" stop-color="#FF6200"/>
+              </linearGradient>
+              <linearGradient id="bDim" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#FF8C00" stop-opacity=".28"/><stop offset="100%" stop-color="#FF6200" stop-opacity=".1"/>
+              </linearGradient>
+              <filter id="gfx" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur stdDeviation="3.5" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <filter id="gfxSm" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="2" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <line x1="0" y1="0" x2="360" y2="0" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+            <line x1="0" y1="36" x2="360" y2="36" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+            <line x1="0" y1="72" x2="360" y2="72" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+            <g id="barsG"></g>
+          </svg>
+          <div class="month-labels">
+            <div class="ml">Jan</div><div class="ml">Fév</div><div class="ml">Mar</div><div class="ml">Avr</div>
+            <div class="ml">Mai</div><div class="ml">Jun</div><div class="ml">Jul</div><div class="ml">Aoû</div>
+          </div>
+        </div>
 
-      <div class="mini-cards">
-        <div class="mini-card">
-          <div class="mini-card-label">Membres actifs</div>
-          <div class="mini-card-val orange">247</div>
+        <!-- LINE SPARKLINE -->
+        <div class="sparkline-area">
+          <svg id="lineSvg" width="100%" height="54" viewBox="0 0 360 54" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="lAreaGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#FFB300" stop-opacity=".22"/>
+                <stop offset="100%" stop-color="#FF6200" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <path id="lArea" d="" fill="url(#lAreaGrad)"/>
+            <path id="lPath" d="" fill="none" stroke="url(#bGrad)" stroke-width="2.2" filter="url(#gfxSm)" stroke-linecap="round" stroke-linejoin="round"/>
+            <g id="lDots"></g>
+          </svg>
         </div>
-        <div class="mini-card">
-          <div class="mini-card-label">Taux renouvellement</div>
-          <div class="mini-card-val green">94%</div>
-        </div>
-        <div class="mini-card">
-          <div class="mini-card-label">Dépenses</div>
-          <div class="mini-card-val" style="color:#f5f5f5">213 000</div>
-        </div>
-        <div class="mini-card">
-          <div class="mini-card-label">Bénéfice net</div>
-          <div class="mini-card-val green">634 500</div>
+
+        <div class="kpi-grid">
+          <div class="kpi"><div class="kpi-lbl">Membres actifs</div><div class="kpi-val kv-amber">247</div></div>
+          <div class="kpi"><div class="kpi-lbl">Renouvellement</div><div class="kpi-val kv-green">94%</div></div>
+          <div class="kpi"><div class="kpi-lbl">Dépenses</div><div class="kpi-val kv-white">213 000</div></div>
+          <div class="kpi"><div class="kpi-lbl">Bénéfice net</div><div class="kpi-val kv-green">634 500</div></div>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- STRIP -->
+<div class="strip">
+  <div class="s-item"><div class="s-icon">⚡</div><div class="s-txt"><strong>Gestion membres</strong> en temps réel</div></div>
+  <div class="s-sep"></div>
+  <div class="s-item"><div class="s-icon">📊</div><div class="s-txt"><strong>Graphiques</strong> professionnels</div></div>
+  <div class="s-sep"></div>
+  <div class="s-item"><div class="s-icon">💬</div><div class="s-txt">Relances <strong>WhatsApp</strong> automatiques</div></div>
+  <div class="s-sep"></div>
+  <div class="s-item"><div class="s-icon">🔐</div><div class="s-txt">Données <strong>sécurisées</strong> Supabase</div></div>
+  <div class="s-sep"></div>
+  <div class="s-item"><div class="s-icon">🇧🇯</div><div class="s-txt">Conçu pour le <strong>Bénin</strong></div></div>
+</div>
 
 <!-- FEATURES -->
-<section class="section" id="features">
-  <div class="section-tag">Fonctionnalités</div>
-  <h2 class="section-title">TOUT CE DONT<br>VOTRE <span class="orange">SALLE</span> A BESOIN</h2>
-  <p class="section-sub">Un outil complet pensé pour les gérants de salles de sport qui veulent prendre le contrôle de leur activité.</p>
-
-  <div class="features-grid">
-    <div class="feature-item">
-      <div class="feature-icon">👥</div>
-      <div class="feature-name">Gestion des membres</div>
-      <div class="feature-desc">Inscriptions, profils, photos, suivi des abonnements actifs, expirés ou suspendus en temps réel.</div>
-    </div>
-    <div class="feature-item">
-      <div class="feature-icon">💰</div>
-      <div class="feature-name">Comptabilité complète</div>
-      <div class="feature-desc">Encaissements, dépenses, bénéfices nets. Rapports financiers automatiques chaque mois.</div>
-    </div>
-    <div class="feature-item">
-      <div class="feature-icon">📊</div>
-      <div class="feature-name">Graphiques professionnels</div>
-      <div class="feature-desc">Tableaux de bord visuels avec courbes, barres et indicateurs clés pour piloter votre salle.</div>
-    </div>
-    <div class="feature-item">
-      <div class="feature-icon">📱</div>
-      <div class="feature-name">Alertes WhatsApp</div>
-      <div class="feature-desc">Relances automatiques à vos membres pour les abonnements expirés ou proches de l'expiration.</div>
-    </div>
-    <div class="feature-item">
-      <div class="feature-icon">🏋️</div>
-      <div class="feature-name">Gestion des coachs</div>
-      <div class="feature-desc">Planning des coachs, suivi des séances et gestion des présences de vos membres.</div>
-    </div>
-    <div class="feature-item">
-      <div class="feature-icon">🔒</div>
-      <div class="feature-name">Multi-utilisateurs</div>
-      <div class="feature-desc">Accès sécurisé pour plusieurs gérants. Gérez plusieurs salles depuis un seul compte.</div>
+<div id="features" style="position:relative;z-index:1">
+  <div class="sec reveal">
+    <div class="sec-eye"><div class="eye-line"></div><div class="eye-txt">Fonctionnalités</div></div>
+    <h2 class="sec-h2">TOUT CE DONT<br>VOTRE <span class="g">SALLE A BESOIN</span></h2>
+    <p class="sec-sub">Un outil pensé pour les gérants de salles de sport qui veulent piloter leur activité avec précision.</p>
+    <div class="feat-grid">
+      <div class="feat"><div class="feat-ico">👥</div><div class="feat-name">Gestion des membres</div><div class="feat-desc">Inscription, profils, photos, suivi des abonnements actifs, expirés ou suspendus. Tout centralisé.</div></div>
+      <div class="feat"><div class="feat-ico">💰</div><div class="feat-name">Comptabilité complète</div><div class="feat-desc">Encaissements, dépenses, bénéfices nets. Rapports financiers automatiques générés chaque mois.</div></div>
+      <div class="feat"><div class="feat-ico">📊</div><div class="feat-name">Graphiques & analyses</div><div class="feat-desc">Tableaux de bord visuels avec courbes, barres et indicateurs clés pour des décisions éclairées.</div></div>
+      <div class="feat"><div class="feat-ico">💬</div><div class="feat-name">Alertes WhatsApp auto</div><div class="feat-desc">Relances automatiques pour abonnements expirants. Zéro effort, zéro perte de client.</div></div>
+      <div class="feat"><div class="feat-ico">🏋️</div><div class="feat-name">Gestion des coachs</div><div class="feat-desc">Planning, suivi des séances, gestion des présences. Toute votre équipe dans un seul outil.</div></div>
+      <div class="feat"><div class="feat-ico">🏢</div><div class="feat-name">Multi-salles & équipe</div><div class="feat-desc">Gérez plusieurs salles depuis un seul compte. Accès sécurisé pour toute votre équipe.</div></div>
     </div>
   </div>
-</section>
+</div>
 
 <!-- PRICING -->
-<section class="section" id="pricing" style="padding-top:0">
-  <div class="section-tag">Tarifs</div>
-  <h2 class="section-title">CHOISISSEZ<br>VOTRE <span class="orange">FORMULE</span></h2>
-  <p class="section-sub">Des prix adaptés au marché béninois. Commencez gratuitement, évoluez quand vous voulez.</p>
-
-  <div class="pricing-grid">
-    <!-- Starter -->
-    <div class="pricing-card">
-      <div class="plan-name">Starter</div>
-      <div class="plan-price">5 000 <span>FCFA/mois</span></div>
-      <div class="plan-desc">Pour les petites salles qui démarrent</div>
-      <ul class="plan-features">
-        <li class="active">Gestion des membres</li>
-        <li class="active">Suivi des abonnements</li>
-        <li class="active">Encaissement manuel</li>
-        <li class="active">Tableau de bord simple</li>
-        <li>1 utilisateur</li>
-        <li>Alertes WhatsApp</li>
-      </ul>
-      <button class="btn-plan">Commencer gratuitement</button>
-    </div>
-
-    <!-- Pro -->
-    <div class="pricing-card featured">
-      <div class="popular-badge">⭐ Le plus populaire</div>
-      <div class="plan-name">Pro</div>
-      <div class="plan-price">20 000 <span>FCFA/mois</span></div>
-      <div class="plan-desc">Pour les salles en pleine croissance</div>
-      <ul class="plan-features">
-        <li class="active">Tout le Starter</li>
-        <li class="active">Alertes WhatsApp auto</li>
-        <li class="active">Gestion des coachs</li>
-        <li class="active">Suivi des présences</li>
-        <li class="active">Rapports financiers</li>
-        <li class="active">3 utilisateurs</li>
-      </ul>
-      <button class="btn-plan featured-btn">Commencer gratuitement</button>
-    </div>
-
-    <!-- Premium -->
-    <div class="pricing-card">
-      <div class="plan-name">Premium</div>
-      <div class="plan-price">40 000 <span>FCFA/mois</span></div>
-      <div class="plan-desc">Pour les grandes salles professionnelles</div>
-      <ul class="plan-features">
-        <li class="active">Tout le Pro</li>
-        <li class="active">Multi-salles</li>
-        <li class="active">Graphiques avancés</li>
-        <li class="active">Facturation automatique</li>
-        <li class="active">Support prioritaire</li>
-        <li class="active">Utilisateurs illimités</li>
-      </ul>
-      <button class="btn-plan">Commencer gratuitement</button>
+<div id="pricing" style="position:relative;z-index:1">
+  <div class="sec reveal" style="padding-top:0">
+    <div class="sec-eye"><div class="eye-line"></div><div class="eye-txt">Tarifs</div></div>
+    <h2 class="sec-h2">CHOISISSEZ<br>VOTRE <span class="g">FORMULE</span></h2>
+    <p class="sec-sub">Des prix adaptés au marché béninois. Commencez gratuitement, évoluez à votre rythme.</p>
+    <div class="price-grid">
+      <div class="price-card">
+        <div class="plan-tier">Starter</div>
+        <div class="plan-price-row"><div class="plan-amt">5 000</div><div class="plan-cur">FCFA/mois</div></div>
+        <div class="plan-tag">Pour les petites salles qui démarrent</div>
+        <ul class="plan-feats">
+          <li class="on"><div class="chk">✓</div>Gestion des membres</li>
+          <li class="on"><div class="chk">✓</div>Suivi des abonnements</li>
+          <li class="on"><div class="chk">✓</div>Encaissement manuel</li>
+          <li class="on"><div class="chk">✓</div>Tableau de bord simple</li>
+          <li><div class="chk">—</div>Alertes WhatsApp</li>
+          <li><div class="chk">—</div>Multi-utilisateurs</li>
+        </ul>
+        <button class="btn-outline">Commencer gratuitement</button>
+      </div>
+      <div class="price-card hot">
+        <div class="hot-tag">⭐ Le plus populaire</div>
+        <div class="plan-tier">Pro</div>
+        <div class="plan-price-row"><div class="plan-amt">20 000</div><div class="plan-cur">FCFA/mois</div></div>
+        <div class="plan-tag">Pour les salles en pleine croissance</div>
+        <ul class="plan-feats">
+          <li class="on"><div class="chk">✓</div>Tout le Starter</li>
+          <li class="on"><div class="chk">✓</div>Alertes WhatsApp auto</li>
+          <li class="on"><div class="chk">✓</div>Gestion des coachs</li>
+          <li class="on"><div class="chk">✓</div>Rapports financiers</li>
+          <li class="on"><div class="chk">✓</div>Graphiques avancés</li>
+          <li class="on"><div class="chk">✓</div>3 utilisateurs</li>
+        </ul>
+        <button class="btn-filled">Commencer gratuitement</button>
+      </div>
+      <div class="price-card">
+        <div class="plan-tier">Premium</div>
+        <div class="plan-price-row"><div class="plan-amt">40 000</div><div class="plan-cur">FCFA/mois</div></div>
+        <div class="plan-tag">Pour les grandes salles professionnelles</div>
+        <ul class="plan-feats">
+          <li class="on"><div class="chk">✓</div>Tout le Pro</li>
+          <li class="on"><div class="chk">✓</div>Multi-salles</li>
+          <li class="on"><div class="chk">✓</div>Application mobile</li>
+          <li class="on"><div class="chk">✓</div>Facturation automatique</li>
+          <li class="on"><div class="chk">✓</div>Support prioritaire</li>
+          <li class="on"><div class="chk">✓</div>Utilisateurs illimités</li>
+        </ul>
+        <button class="btn-outline">Commencer gratuitement</button>
+      </div>
     </div>
   </div>
-</section>
+</div>
 
 <!-- CTA -->
-<div class="cta-section">
-  <h2>PRÊT À <span class="orange">TRANSFORMER</span><br>VOTRE SALLE ?</h2>
-  <p>Rejoignez les salles de sport qui utilisent MultiGym pour gérer leur activité comme des pros.</p>
-  <div class="cta-buttons">
-    <a href="#" class="btn-hero-cta">Commencez gratuitement</a>
-    <a href="#" class="btn-hero-login">Voir une démo →</a>
+<div class="cta-outer reveal">
+  <div class="cta-box">
+    <h2>PRÊT À <span class="g">TRANSFORMER</span><br>VOTRE SALLE ?</h2>
+    <p>Rejoignez les salles de sport béninoises qui gèrent leur activité comme des vrais professionnels.</p>
+    <div class="cta-btns">
+      <a href="#" class="btn-primary btn-xl">Commencez gratuitement →</a>
+      <a href="#" class="btn-ghost-xl">▶ Voir une démo</a>
+    </div>
   </div>
 </div>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">MULTI<span>GYM</span></div>
-  <div class="footer-copy">© 2026 MultiGym. Tous droits réservés.</div>
-  <div class="footer-copy">Made in Bénin 🇧🇯</div>
+  <a href="#" class="nav-logo" style="text-decoration:none">
+    <div class="logo-icon">⚡</div>
+    <div class="logo-txt">MULTI<span>GYM</span></div>
+  </a>
+  <div class="foot-copy">© 2026 MultiGym — Tous droits réservés</div>
+  <div class="foot-copy">Made with 🔥 in <span>Bénin</span></div>
 </footer>
 
+<script>
+/* ---- NAV SCROLL ---- */
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>40));
+
+/* ---- HAMBURGER ---- */
+function toggleMenu(){
+  document.getElementById('mobMenu').classList.toggle('open');
+  document.getElementById('ham').classList.toggle('open');
+}
+
+/* ---- EASING ---- */
+function easeOut(t){return 1-Math.pow(1-t,3)}
+
+/* ---- BAR CHART ---- */
+const BAR_DATA=[40,58,48,70,52,78,62,100];
+const CHART_H=96, TOTAL_W=360, BAR_W=28, GAP=14;
+const N=BAR_DATA.length;
+const START_X=(TOTAL_W-(N*BAR_W+(N-1)*GAP))/2;
+
+function drawBars(prog){
+  const g=document.getElementById('barsG');
+  g.innerHTML='';
+  BAR_DATA.forEach((h,i)=>{
+    const x=START_X+i*(BAR_W+GAP);
+    const fullH=(h/100)*CHART_H;
+    const animH=fullH*prog[i];
+    const y=CHART_H-animH;
+    const isHero=i===N-1;
+
+    // Background track
+    const bg=document.createElementNS('http://www.w3.org/2000/svg','rect');
+    bg.setAttribute('x',x);bg.setAttribute('y',CHART_H-fullH);
+    bg.setAttribute('width',BAR_W);bg.setAttribute('height',fullH);
+    bg.setAttribute('rx','5');bg.setAttribute('fill','rgba(255,160,0,.055)');
+    g.appendChild(bg);
+
+    if(animH<1)return;
+
+    // Main bar
+    const r=document.createElementNS('http://www.w3.org/2000/svg','rect');
+    r.setAttribute('x',x);r.setAttribute('y',y);
+    r.setAttribute('width',BAR_W);r.setAttribute('height',animH);
+    r.setAttribute('rx','5');
+    r.setAttribute('fill',isHero?'url(#bGrad)':'url(#bDim)');
+    if(isHero)r.setAttribute('filter','url(#gfx)');
+    g.appendChild(r);
+
+    // Glow cap on top
+    if(animH>3){
+      const cap=document.createElementNS('http://www.w3.org/2000/svg','rect');
+      cap.setAttribute('x',x);cap.setAttribute('y',y);
+      cap.setAttribute('width',BAR_W);cap.setAttribute('height',isHero?4:2);
+      cap.setAttribute('rx','3');
+      cap.setAttribute('fill',isHero?'#FFD700':'rgba(255,179,0,.5)');
+      if(isHero)cap.setAttribute('filter','url(#gfx)');
+      g.appendChild(cap);
+    }
+
+    // Value label on last bar when almost done
+    if(isHero&&prog[i]>0.9){
+      const txt=document.createElementNS('http://www.w3.org/2000/svg','text');
+      txt.setAttribute('x',x+BAR_W/2);txt.setAttribute('y',y-6);
+      txt.setAttribute('text-anchor','middle');txt.setAttribute('font-size','8');
+      txt.setAttribute('fill','#FFB300');txt.setAttribute('font-family','DM Sans,sans-serif');
+      txt.setAttribute('font-weight','600');txt.setAttribute('filter','url(#gfxSm)');
+      txt.textContent=Math.round(prog[i]*100)+'%';
+      g.appendChild(txt);
+    }
+  });
+}
+
+const progs=new Array(N).fill(0);
+const DELAYS=BAR_DATA.map((_,i)=>i*90);
+const DUR=1000;
+
+function animBars(t0){
+  const now=performance.now();
+  BAR_DATA.forEach((_,i)=>{
+    const elapsed=now-t0-DELAYS[i];
+    if(elapsed>0)progs[i]=easeOut(Math.min(elapsed/DUR,1));
+  });
+  drawBars(progs);
+  if(progs.some(p=>p<1))requestAnimationFrame(()=>animBars(t0));
+}
+
+/* ---- LINE CHART ---- */
+const LINE_Y=[22,34,26,40,30,46,36,52];
+const pts=LINE_Y.map((v,i)=>({
+  x:START_X+i*(BAR_W+GAP)+BAR_W/2,
+  y:54-(v/52)*46
+}));
+
+function bezierPath(P,close=false){
+  if(!P.length)return'';
+  let d=`M${P[0].x} ${P[0].y}`;
+  for(let i=1;i<P.length;i++){
+    const cp1x=P[i-1].x+(P[i].x-P[i-1].x)*.35;
+    const cp2x=P[i].x-(P[i].x-P[i-1].x)*.35;
+    d+=` C${cp1x} ${P[i-1].y} ${cp2x} ${P[i].y} ${P[i].x} ${P[i].y}`;
+  }
+  if(close)d+=` L${P[N-1].x} 54 L${P[0].x} 54 Z`;
+  return d;
+}
+
+const lPath=document.getElementById('lPath');
+const lArea=document.getElementById('lArea');
+lPath.setAttribute('d',bezierPath(pts));
+lArea.setAttribute('d',bezierPath(pts,true));
+
+function animLine(){
+  const len=lPath.getTotalLength()||380;
+  lPath.style.strokeDasharray=len;
+  lPath.style.strokeDashoffset=len;
+  lPath.style.transition='stroke-dashoffset 1.5s cubic-bezier(.4,0,.2,1) .5s';
+  // Trigger reflow
+  lPath.getBoundingClientRect();
+  lPath.style.strokeDashoffset='0';
+
+  const dotsG=document.getElementById('lDots');
+  pts.forEach((p,i)=>{
+    setTimeout(()=>{
+      const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+      c.setAttribute('cx',p.x);c.setAttribute('cy',p.y);
+      c.setAttribute('r',i===pts.length-1?'5':'3.5');
+      c.setAttribute('fill',i===pts.length-1?'#FFD700':'#FFB300');
+      c.setAttribute('filter','url(#gfxSm)');
+      c.style.opacity='0';c.style.transition='opacity .4s';
+      dotsG.appendChild(c);
+      requestAnimationFrame(()=>{c.style.opacity='1';});
+    },500+i*130);
+  });
+}
+
+/* ---- COUNTER ---- */
+function counter(el,target,dur,sfx=''){
+  const t0=performance.now();
+  function tick(now){
+    const p=easeOut(Math.min((now-t0)/dur,1));
+    el.textContent=Math.round(p*target)+(sfx||'');
+    if(p<1)requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+/* ---- SCROLL REVEAL ---- */
+const ro=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');ro.unobserve(e.target);}});
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+/* ---- INIT ON LOAD ---- */
+window.addEventListener('load',()=>{
+  const t0=performance.now();
+  animBars(t0);
+  animLine();
+  document.querySelectorAll('[data-target]').forEach(el=>{
+    counter(el,+el.dataset.target,1600,el.dataset.suffix||'');
+  });
+});
+</script>
 </body>
 </html>
