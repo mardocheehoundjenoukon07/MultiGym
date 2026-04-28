@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>MultiGym — Pilotez votre salle comme un empire</title>
+<title>GymPilote — Pilotez votre salle comme un empire</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
 <style>
@@ -19,6 +19,10 @@ html{scroll-behavior:smooth}
   --text:#F2F2F5;--muted:#64647A;--muted2:#9898B0;
 }
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+/* Remove Android blue tap highlight on ALL interactive elements */
+*{-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}
+a,button,input,textarea{-webkit-tap-highlight-color:transparent;outline:none}
+button:focus,a:focus{outline:none}
 ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--y2)}
 
 .bg-mesh{position:fixed;inset:0;pointer-events:none;z-index:0;
@@ -95,11 +99,11 @@ nav.scrolled{background:rgba(6,6,8,.97);border-bottom-color:var(--border-h)}
 .hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:3.2rem;animation:fadeUp .8s .25s ease both}
 .btn-xl{padding:15px 32px;border-radius:10px;font-size:.92rem;font-weight:700}
 
-.hero-stats{display:flex;gap:2.8rem;animation:fadeUp .8s .35s ease both;flex-wrap:wrap}
-.stat{border-left:2px solid rgba(255,175,0,.28);padding-left:1rem}
+.hero-stats{display:flex;flex-direction:row;flex-wrap:nowrap;gap:2.8rem;animation:fadeUp .8s .35s ease both;align-items:flex-start}
+.stat{border-left:2px solid rgba(255,175,0,.28);padding-left:1rem;flex-shrink:0}
 .stat-n{font-family:'Barlow Condensed',sans-serif;font-size:2.1rem;font-weight:900;letter-spacing:1px;
-  background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.stat-l{font-size:.67rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+  background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+.stat-l{font-size:.67rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:2px;white-space:nowrap}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 @keyframes slideIn{from{opacity:0;transform:translateX(32px) scale(.97)}to{opacity:1;transform:translateX(0) scale(1)}}
@@ -218,7 +222,7 @@ nav.scrolled{background:rgba(6,6,8,.97);border-bottom-color:var(--border-h)}
   position:relative;overflow:hidden;max-width:1300px;margin:0 auto}
 .cta-box::before{content:'';position:absolute;top:-210px;left:50%;transform:translateX(-50%);
   width:520px;height:520px;background:radial-gradient(circle,rgba(255,155,0,.11) 0%,transparent 60%);pointer-events:none}
-.cta-box::after{content:'MULTIGYM';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+.cta-box::after{content:'GYMPILOTE';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
   font-family:'Barlow Condensed',sans-serif;font-size:clamp(4rem,10vw,12rem);font-weight:900;
   letter-spacing:10px;color:rgba(255,155,0,.024);white-space:nowrap;pointer-events:none}
 .cta-box h2{font-family:'Barlow Condensed',sans-serif;font-size:clamp(2.6rem,5vw,4.4rem);
@@ -257,8 +261,10 @@ footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.04);pa
   .hero-h1{font-size:3.1rem}
   .hero-btns{flex-direction:column}
   .hero-btns a{width:100%;text-align:center}
-  .hero-stats{gap:1rem}
-  .stat-n{font-size:1.65rem}
+  .hero-stats{gap:.9rem}
+  .stat{padding-left:.7rem}
+  .stat-n{font-size:1.35rem}
+  .stat-l{font-size:.58rem;letter-spacing:.5px}
   .form-grid2{grid-template-columns:1fr}
   .cta-btns{flex-direction:column}
   .cta-btns a{width:100%;text-align:center}
@@ -274,7 +280,7 @@ footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.04);pa
 <nav id="nav">
   <a href="#" class="nav-logo">
     <div class="logo-icon">+</div>
-    <div class="logo-txt">MULTI<em>GYM</em></div>
+    <div class="logo-txt">GYM<em>PILOTE</em></div>
   </a>
   <ul class="nav-links">
     <li><a href="#features">Fonctionnalités</a></li>
@@ -307,11 +313,11 @@ footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.04);pa
     <div>
       <h1 class="hero-h1">
         <span class="line-plain">TRANSFORMEZ</span>
-        <span class="line-grad">VOTRE GYM EN EMPIRE</span>
+        <span class="line-grad">VOTRE GYMEN EMPIRE</span>
         <span class="line-out">RENTABLE</span>
       </h1>
       <p class="hero-p">
-        <strong>MultiGym</strong> centralise la gestion de vos membres, votre comptabilité complète et vos analyses en temps réel. Prenez les meilleures décisions grâce à des <strong>graphiques professionnels</strong> qui décodent votre business.
+        <strong>GymPilote</strong> centralise la gestion de vos membres, votre comptabilité complète et vos analyses en temps réel. Prenez les meilleures décisions grâce à des <strong>graphiques professionnels</strong> qui décodent votre business.
       </p>
       <div class="hero-btns">
         <a href="#" class="btn-primary btn-xl">Commencez gratuitement →</a>
@@ -474,8 +480,8 @@ footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.04);pa
     <div class="contact-grid">
       <div class="contact-info">
         <h3>On est là<br>pour vous.</h3>
-        <p>Que vous ayez une salle de 50 membres ou un réseau de 10 établissements, MultiGym s'adapte. Contactez-nous et trouvons ensemble la formule parfaite pour votre activité.</p>
-        <div class="c-item"><div class="c-ico">📧</div><div><div class="c-lbl">Email</div><div class="c-val">contact@multigym.app</div></div></div>
+        <p>Que vous ayez une salle de 50 membres ou un réseau de 10 établissements, GymPilote s'adapte. Contactez-nous et trouvons ensemble la formule parfaite pour votre activité.</p>
+        <div class="c-item"><div class="c-ico">📧</div><div><div class="c-lbl">Email</div><div class="c-val">contact@gympilote.app</div></div></div>
         <div class="c-item"><div class="c-ico">💬</div><div><div class="c-lbl">WhatsApp</div><div class="c-val">+229 XX XX XX XX</div></div></div>
         <div class="c-item"><div class="c-ico">🌍</div><div><div class="c-lbl">Disponible</div><div class="c-val">Partout dans le monde</div></div></div>
       </div>
@@ -508,10 +514,10 @@ footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.04);pa
 <footer>
   <a href="#" class="nav-logo" style="text-decoration:none">
     <div class="logo-icon">+</div>
-    <div class="logo-txt">MULTI<em>GYM</em></div>
+    <div class="logo-txt">GYM<em>PILOTE</em></div>
   </a>
-  <div class="foot-copy">© 2026 MultiGym — Tous droits réservés</div>
-  <div class="foot-copy">MultiGym est uniquement pour les Leaders</div>
+  <div class="foot-copy">© 2026 GymPilote — Tous droits réservés</div>
+  <div class="foot-copy">Made with 🔥 for the world</div>
 </footer>
 
 <script>
