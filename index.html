@@ -161,10 +161,10 @@ nav.scrolled{background:rgba(6,6,8,.97);border-bottom-color:var(--border-h)}
 .feat-name{font-weight:600;font-size:.97rem;margin-bottom:.5rem;color:var(--text)}
 .feat-desc{font-size:.82rem;color:var(--muted2);line-height:1.65;font-weight:300}
 
-/* PRICING */
-.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:4rem}
+/* PRICING - force equal height cards */
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:4rem;align-items:start}
 .price-card{background:var(--bg3);border:1px solid rgba(255,255,255,.055);border-radius:20px;
-  padding:2.5rem 2rem;transition:all .4s}
+  padding:2.5rem 2rem;transition:all .4s;display:flex;flex-direction:column}
 .price-card:hover{border-color:var(--border-h);transform:translateY(-6px);
   box-shadow:0 28px 64px rgba(0,0,0,.45),0 0 44px rgba(255,140,0,.07)}
 .price-card.hot{background:linear-gradient(155deg,rgba(255,155,0,.1) 0%,var(--bg3) 55%);
@@ -175,19 +175,47 @@ nav.scrolled{background:rgba(6,6,8,.97);border-bottom-color:var(--border-h)}
 .plan-cur{font-size:.74rem;color:var(--muted2);font-weight:300;align-self:flex-end;padding-bottom:4px}
 .plan-tag{font-size:.81rem;color:var(--muted2);margin-bottom:1.5rem;padding-bottom:1.4rem;
   border-bottom:1px solid rgba(255,255,255,.05);font-weight:300}
-.plan-feats{list-style:none;margin-bottom:2rem;display:flex;flex-direction:column;gap:9px}
+.plan-feats{list-style:none;margin-bottom:2rem;display:flex;flex-direction:column;gap:9px;flex:1}
 .plan-feats li{display:flex;align-items:center;gap:10px;font-size:.83rem;color:var(--muted2);font-weight:300}
 .plan-feats li.on{color:var(--text)}
 .chk{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;
   flex-shrink:0;font-size:9px;background:rgba(255,155,0,.1);border:1px solid rgba(255,155,0,.22);color:var(--y1)}
 .plan-feats li.on .chk{background:var(--grad);border:none;color:#080808;font-weight:900}
+.chk-gold{background:linear-gradient(135deg,#FFB300,#FF6200)!important;border:none!important;color:#080808!important;font-weight:900!important;font-size:10px!important}
+.feat-hormozi-li{padding:6px 8px;background:rgba(255,155,0,.05);border-radius:8px;border:1px solid rgba(255,155,0,.15)!important;margin-top:4px}
+.feat-hormozi-li span{color:var(--y1)!important;font-weight:500!important}
 .btn-outline{width:100%;padding:13px;border-radius:10px;font-size:.87rem;font-weight:600;cursor:pointer;
-  transition:all .3s;border:1px solid var(--border-h);color:var(--y1);background:transparent;font-family:'DM Sans',sans-serif}
+  transition:all .3s;border:1px solid var(--border-h);color:var(--y1);background:transparent;font-family:'DM Sans',sans-serif;margin-top:auto}
 .btn-outline:hover{background:rgba(255,155,0,.06)}
 .btn-filled{width:100%;padding:13px;border-radius:10px;font-size:.87rem;font-weight:700;cursor:pointer;
   transition:all .3s;border:none;color:#080808;background:var(--grad);font-family:'DM Sans',sans-serif;
-  box-shadow:0 4px 22px rgba(255,140,0,.3)}
+  box-shadow:0 4px 22px rgba(255,140,0,.3);margin-top:auto}
 .btn-filled:hover{box-shadow:0 8px 32px rgba(255,140,0,.5);transform:translateY(-1px)}
+
+/* FEATURE BADGES */
+.feat-badge{display:inline-block;font-size:.6rem;font-weight:700;letter-spacing:1.5px;
+  text-transform:uppercase;padding:3px 10px;border-radius:100px;margin-bottom:.6rem;
+  background:rgba(255,155,0,.1);border:1px solid rgba(255,155,0,.28);color:var(--y1)}
+.feat-badge-gold{background:var(--grad);color:#080808;border:none;box-shadow:0 2px 12px rgba(255,140,0,.3)}
+
+/* HORMOZI CARD */
+.feat-hormozi{border:1px solid rgba(255,155,0,.25)!important;background:linear-gradient(155deg,rgba(255,155,0,.07) 0%,var(--bg2) 60%)!important}
+.feat-hormozi:hover{border-color:rgba(255,155,0,.45)!important}
+.feat-img-hormozi-wrap{position:relative}
+.feat-img-hormozi{filter:brightness(.7) saturate(1.3) contrast(1.1)!important}
+.hormozi-overlay{position:absolute;inset:0;display:flex;align-items:flex-end;padding:14px;
+  background:linear-gradient(transparent 40%,rgba(6,6,8,.85))}
+.hormozi-tag{font-family:'Barlow Condensed',sans-serif;font-size:.75rem;font-weight:700;
+  letter-spacing:2px;color:var(--y1);text-transform:uppercase;
+  background:rgba(6,6,8,.7);border:1px solid rgba(255,155,0,.35);
+  padding:4px 12px;border-radius:100px}
+.hormozi-quote{font-size:.78rem;color:var(--y2);font-style:italic;line-height:1.55;
+  margin-top:.8rem;padding:.8rem 1rem;border-left:2px solid var(--y1);
+  background:rgba(255,155,0,.04);border-radius:0 8px 8px 0;font-weight:300}
+
+/* ACCENT FEAT */
+.feat-accent{border:1px solid rgba(74,222,128,.15)!important}
+.feat-accent:hover{border-color:rgba(74,222,128,.3)!important}
 
 /* CONTACT */
 .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-top:4rem;align-items:start}
@@ -238,76 +266,7 @@ footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.04);pa
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .72s ease,transform .72s ease}
 .reveal.vis{opacity:1;transform:none}
 
-/* ===== POPUP ===== */
-.popup-overlay{position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;
-  padding:1rem;opacity:0;pointer-events:none;transition:opacity .35s ease}
-.popup-overlay.open{opacity:1;pointer-events:all}
-.popup-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
 
-.popup-box{position:relative;z-index:1;background:var(--bg2);border:1px solid rgba(255,155,0,.25);
-  border-radius:22px;padding:2.2rem 2rem;width:100%;max-width:440px;
-  transform:scale(.93) translateY(20px);transition:transform .38s cubic-bezier(.34,1.56,.64,1);
-  box-shadow:0 0 0 1px rgba(255,255,255,.03) inset,0 40px 80px rgba(0,0,0,.8),0 0 60px rgba(255,140,0,.08)}
-.popup-overlay.open .popup-box{transform:scale(1) translateY(0)}
-
-.popup-close{position:absolute;top:14px;right:14px;width:32px;height:32px;
-  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:8px;
-  display:flex;align-items:center;justify-content:center;cursor:pointer;
-  color:var(--muted2);font-size:1.1rem;line-height:1;transition:all .3s;font-family:sans-serif}
-.popup-close:hover{background:rgba(255,100,0,.12);border-color:rgba(255,100,0,.3);color:var(--y1)}
-
-.popup-plan-badge{display:inline-flex;align-items:center;gap:8px;
-  background:rgba(255,155,0,.1);border:1px solid rgba(255,155,0,.3);
-  border-radius:100px;padding:5px 14px;font-size:.72rem;font-weight:600;
-  color:var(--y1);letter-spacing:1px;text-transform:uppercase;margin-bottom:1.2rem}
-.popup-plan-badge .plan-dot{width:7px;height:7px;border-radius:50%;background:var(--y1);flex-shrink:0}
-
-.popup-title{font-family:'Barlow Condensed',sans-serif;font-size:2rem;font-weight:900;letter-spacing:1.5px;margin-bottom:.3rem;line-height:1}
-.popup-title .g{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.popup-sub{font-size:.82rem;color:var(--muted2);margin-bottom:1.6rem;line-height:1.5;font-weight:300}
-
-.pop-field{margin-bottom:1rem}
-.pop-label{font-size:.65rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted2);
-  display:block;margin-bottom:6px;font-weight:500}
-.pop-input{width:100%;background:var(--bg3);border:1px solid rgba(255,255,255,.07);
-  border-radius:10px;padding:13px 14px;color:var(--text);font-family:'DM Sans',sans-serif;
-  font-size:.9rem;transition:border-color .3s;outline:none}
-.pop-input:focus{border-color:rgba(255,155,0,.42);background:var(--bg4)}
-.pop-input::placeholder{color:var(--muted)}
-
-.pop-plan-row{display:flex;gap:8px;margin-bottom:1.3rem}
-.pop-plan-opt{flex:1;padding:10px 6px;border-radius:9px;text-align:center;cursor:pointer;
-  border:1px solid rgba(255,255,255,.07);background:var(--bg3);transition:all .25s}
-.pop-plan-opt:hover{border-color:rgba(255,155,0,.28)}
-.pop-plan-opt.selected{border-color:var(--y1);background:rgba(255,155,0,.07);}
-.pop-plan-name{font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;letter-spacing:.5px;color:var(--text);line-height:1;margin-bottom:3px}
-.pop-plan-price{font-size:.65rem;color:var(--muted2)}
-.pop-plan-opt.selected .pop-plan-name{color:var(--y1)}
-
-.pop-terms{font-size:.72rem;color:var(--muted);text-align:center;margin-top:.8rem;line-height:1.5}
-.pop-terms a{color:var(--y2);text-decoration:none}
-
-.btn-pop-submit{width:100%;padding:14px;border-radius:11px;font-size:.9rem;font-weight:700;
-  cursor:pointer;background:var(--grad);border:none;color:#080808;font-family:'DM Sans',sans-serif;
-  box-shadow:0 4px 22px rgba(255,140,0,.3);transition:all .3s;margin-top:.2rem;letter-spacing:.3px}
-.btn-pop-submit:hover{box-shadow:0 8px 32px rgba(255,140,0,.5);transform:translateY(-1px)}
-.btn-pop-submit:active{transform:translateY(0)}
-
-/* SUCCESS STATE */
-.popup-success{display:none;flex-direction:column;align-items:center;text-align:center;padding:.5rem 0}
-.popup-success.show{display:flex}
-.popup-form-inner.hide{display:none}
-.success-icon{width:64px;height:64px;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);
-  border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.8rem;
-  margin-bottom:1.2rem;animation:popIn .4s cubic-bezier(.34,1.56,.64,1)}
-@keyframes popIn{from{transform:scale(0)}to{transform:scale(1)}}
-.success-title{font-family:'Barlow Condensed',sans-serif;font-size:1.8rem;font-weight:900;
-  letter-spacing:1px;margin-bottom:.5rem}
-.success-sub{font-size:.85rem;color:var(--muted2);line-height:1.6;max-width:300px;margin-bottom:1.5rem;font-weight:300}
-.btn-go-app{display:inline-block;padding:13px 28px;border-radius:10px;font-size:.88rem;font-weight:700;
-  cursor:pointer;background:var(--grad);border:none;color:#080808;font-family:'DM Sans',sans-serif;
-  box-shadow:0 4px 22px rgba(255,140,0,.3);transition:all .3s;text-decoration:none;letter-spacing:.3px}
-.btn-go-app:hover{box-shadow:0 8px 32px rgba(255,140,0,.5);transform:translateY(-1px)}
 
 /* RESPONSIVE */
 @media(max-width:1060px){
@@ -374,7 +333,7 @@ footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.04);pa
   <a href="#contact" class="mob-link" onclick="closeMenu()">Contact</a>
   <div class="mob-btns">
     <a href="#" class="btn-ghost">Se connecter</a>
-    <a href="#" class="btn-primary" onclick="openPopup('starter');return false;">Commencer</a>
+    <a href="#" class="btn-primary" href="gympilote-auth.html">Commencer</a>
   </div>
 </div>
 
@@ -391,7 +350,7 @@ footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.04);pa
         <strong>GymPilote</strong> centralise la gestion de vos membres, votre comptabilité complète et vos analyses en temps réel. Prenez les meilleures décisions grâce à des <strong>graphiques professionnels</strong> qui décodent votre business.
       </p>
       <div class="hero-btns">
-        <a href="#" class="btn-primary btn-xl" onclick="openPopup('starter');return false;">Commencez gratuitement →</a>
+        <a href="#" class="btn-primary btn-xl" href="gympilote-auth.html">Commencez gratuitement →</a>
       </div>
       <div class="hero-stats">
         <div class="stat"><div class="stat-n" data-target="100" data-suffix="%">0%</div><div class="stat-l">Tout en ligne</div></div>
@@ -461,30 +420,63 @@ footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.04);pa
     <h2 class="sec-h2">TOUT CE QU'IL FAUT<br>POUR <span class="g">DOMINER VOTRE MARCHÉ</span></h2>
     <p class="sec-sub">Un outil complet pensé pour les gérants qui veulent piloter leur salle avec précision et efficacité.</p>
     <div class="feat-grid">
+
       <div class="feat">
         <div class="feat-img-wrap"><img class="feat-img" src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80" alt="Gestion membres" loading="lazy"></div>
         <div class="feat-body"><div class="feat-name">Gestion des membres</div><div class="feat-desc">Inscription, profils, photos, suivi des abonnements actifs, expirés ou suspendus. Tout centralisé en un clic.</div></div>
       </div>
+
       <div class="feat">
         <div class="feat-img-wrap"><img class="feat-img" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80" alt="Comptabilité" loading="lazy"></div>
         <div class="feat-body"><div class="feat-name">Comptabilité complète</div><div class="feat-desc">Encaissements, dépenses, bénéfices nets. Rapports financiers automatiques générés et exportables chaque mois.</div></div>
       </div>
+
       <div class="feat">
         <div class="feat-img-wrap"><img class="feat-img" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80" alt="Graphiques analytics" loading="lazy"></div>
         <div class="feat-body"><div class="feat-name">Graphiques & analyses</div><div class="feat-desc">Tableaux de bord visuels avec courbes, barres et KPIs pour des décisions éclairées basées sur vos données.</div></div>
       </div>
+
       <div class="feat">
         <div class="feat-img-wrap"><img class="feat-img" src="https://images.unsplash.com/photo-1611746872915-64382b5c76da?w=600&q=80" alt="WhatsApp alertes" loading="lazy"></div>
         <div class="feat-body"><div class="feat-name">Alertes WhatsApp automatiques</div><div class="feat-desc">Relances automatiques pour abonnements expirants. Zéro effort, zéro perte de client, zéro oubli.</div></div>
       </div>
+
       <div class="feat">
         <div class="feat-img-wrap"><img class="feat-img" src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&q=80" alt="Coachs" loading="lazy"></div>
         <div class="feat-body"><div class="feat-name">Gestion des coachs</div><div class="feat-desc">Planning, suivi des séances et gestion des présences. Toute votre équipe organisée dans un seul outil.</div></div>
       </div>
+
       <div class="feat">
         <div class="feat-img-wrap"><img class="feat-img" src="https://images.unsplash.com/photo-1593079831268-3381b0db4a77?w=600&q=80" alt="Multi-salles" loading="lazy"></div>
         <div class="feat-body"><div class="feat-name">Multi-salles & équipe</div><div class="feat-desc">Gérez plusieurs établissements depuis un compte unique. Accès sécurisé pour toute votre équipe de direction.</div></div>
       </div>
+
+      <!-- ACQUISITION -->
+      <div class="feat feat-accent">
+        <div class="feat-img-wrap"><img class="feat-img" src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&q=80" alt="Acquisition clients" loading="lazy"></div>
+        <div class="feat-body">
+          <div class="feat-badge">NOUVEAU</div>
+          <div class="feat-name">Acquisition de nouveaux membres</div>
+          <div class="feat-desc">Des stratégies intégrées pour attirer plus de clients : pages de capture, offres d'essai, suivi des prospects et conversion automatisée. Votre salle grandit même quand vous dormez.</div>
+        </div>
+      </div>
+
+      <!-- ALEX HORMOZI -->
+      <div class="feat feat-hormozi">
+        <div class="feat-img-wrap feat-img-hormozi-wrap">
+          <img class="feat-img feat-img-hormozi" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80" alt="Coach Business Sportif" loading="lazy">
+          <div class="hormozi-overlay">
+            <div class="hormozi-tag">COACH INTÉGRÉ</div>
+          </div>
+        </div>
+        <div class="feat-body">
+          <div class="feat-badge feat-badge-gold">EXCLUSIF PRO & PREMIUM</div>
+          <div class="feat-name">Alex Hormozi — Coach Business Sportif</div>
+          <div class="feat-desc">Accédez aux meilleures stratégies business du fitness mondial. Méthodes de pricing, rétention, acquisition et scaling directement intégrées dans GymPilote pour transformer votre salle en machine à revenus.</div>
+          <div class="hormozi-quote">"Faites de votre salle une offre si bonne que les gens se sentiraient stupides de dire non."</div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -496,6 +488,8 @@ footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.04);pa
     <h2 class="sec-h2">CHOISISSEZ<br>VOTRE <span class="g">FORMULE</span></h2>
     <p class="sec-sub">Des formules adaptées à chaque taille de salle. Commencez gratuitement, évoluez à votre rythme.</p>
     <div class="price-grid">
+
+      <!-- STARTER -->
       <div class="price-card">
         <div class="plan-tier">Starter</div>
         <div class="plan-price-row"><div class="plan-amt">4 900</div><div class="plan-cur">FCFA / mois</div></div>
@@ -507,8 +501,14 @@ footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.04);pa
           <li class="on"><div class="chk">✓</div>Tableau de bord simple</li>
           <li><div class="chk">—</div>Alertes WhatsApp</li>
           <li><div class="chk">—</div>Rapports financiers</li>
+          <li><div class="chk">—</div>Acquisition de membres</li>
+          <li><div class="chk">—</div>Coach Alex Hormozi</li>
         </ul>
-        <button class="btn-outline" onclick="openPopup('starter')">Commencer gratuitement</button>
+        <button class="btn-outline" onclick="window.location='gympilote-auth.html?plan=starter'">Commencer gratuitement</button>
+      </div>
+
+      <!-- PRO -->
+      <div class="price-card hot">
         <div class="plan-tier">Pro</div>
         <div class="plan-price-row"><div class="plan-amt">9 900</div><div class="plan-cur">FCFA / mois</div></div>
         <div class="plan-tag">Pour les salles en pleine croissance</div>
@@ -519,9 +519,13 @@ footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.04);pa
           <li class="on"><div class="chk">✓</div>Rapports financiers</li>
           <li class="on"><div class="chk">✓</div>Graphiques avancés</li>
           <li class="on"><div class="chk">✓</div>3 utilisateurs</li>
+          <li class="on feat-hormozi-li"><div class="chk chk-gold">✓</div><span>Acquisition de membres</span></li>
+          <li class="on feat-hormozi-li"><div class="chk chk-gold">★</div><span>Coach Alex Hormozi intégré</span></li>
         </ul>
-        <button class="btn-filled" onclick="openPopup('pro')">Commencer gratuitement</button>
+        <button class="btn-filled" onclick="window.location='gympilote-auth.html?plan=pro'">Commencer gratuitement</button>
       </div>
+
+      <!-- PREMIUM -->
       <div class="price-card">
         <div class="plan-tier">Premium</div>
         <div class="plan-price-row"><div class="plan-amt">15 900</div><div class="plan-cur">FCFA / mois</div></div>
@@ -533,8 +537,17 @@ footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.04);pa
           <li class="on"><div class="chk">✓</div>Facturation automatique</li>
           <li class="on"><div class="chk">✓</div>Support prioritaire 24/7</li>
           <li class="on"><div class="chk">✓</div>Utilisateurs illimités</li>
+          <li class="on feat-hormozi-li"><div class="chk chk-gold">✓</div><span>Acquisition de membres avancée</span></li>
+          <li class="on feat-hormozi-li"><div class="chk chk-gold">★</div><span>Coach Alex Hormozi — Accès complet</span></li>
         </ul>
-        <button class="btn-outline" onclick="openPopup('premium')">Commencer gratuitement</button>
+        <button class="btn-outline" onclick="window.location='gympilote-auth.html?plan=premium'">Commencer gratuitement</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
 <div id="contact" class="sec-outer">
   <div class="sec reveal" style="padding-top:0">
     <div class="sec-eye"><div class="eye-line"></div><div class="eye-txt">Contact</div></div>
@@ -561,71 +574,12 @@ footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.04);pa
     </div>
   </div>
 </div>
-
-<!-- CTA -->
 <div class="cta-outer reveal">
   <div class="cta-box">
     <h2>PRÊT À BÂTIR<br>VOTRE <span class="g">EMPIRE GYM ?</span></h2>
     <p>Rejoignez les gérants qui pilotent leur salle avec précision et transforment chaque membre en revenu récurrent.</p>
     <div class="cta-btns">
-      <a href="#" class="btn-primary btn-xl" onclick="openPopup('starter');return false;">Commencez gratuitement →</a>
-    </div>
-  </div>
-</div>
-
-<!-- ===== POPUP INSCRIPTION ===== -->
-<div class="popup-overlay" id="popupOverlay" onclick="handleOverlayClick(event)">
-  <div class="popup-backdrop"></div>
-  <div class="popup-box" id="popupBox">
-    <button class="popup-close" onclick="closePopup()">✕</button>
-
-    <!-- FORM -->
-    <div class="popup-form-inner" id="popFormInner">
-      <div class="popup-plan-badge"><div class="plan-dot"></div><span id="popPlanLabel">Starter</span></div>
-      <div class="popup-title">CRÉEZ VOTRE<br><span class="g">COMPTE GRATUIT</span></div>
-      <div class="popup-sub">30 secondes suffisent. Aucune carte bancaire requise.</div>
-
-      <!-- PLAN SELECTOR -->
-      <div class="pop-plan-row" id="popPlanRow">
-        <div class="pop-plan-opt selected" id="opt-starter" onclick="selectPlan('starter')">
-          <div class="pop-plan-name">STARTER</div>
-          <div class="pop-plan-price">4 900 FCFA/mois</div>
-        </div>
-        <div class="pop-plan-opt" id="opt-pro" onclick="selectPlan('pro')">
-          <div class="pop-plan-name">PRO</div>
-          <div class="pop-plan-price">9 900 FCFA/mois</div>
-        </div>
-        <div class="pop-plan-opt" id="opt-premium" onclick="selectPlan('premium')">
-          <div class="pop-plan-name">PREMIUM</div>
-          <div class="pop-plan-price">15 900 FCFA/mois</div>
-        </div>
-      </div>
-
-      <div class="pop-field">
-        <label class="pop-label">Nom complet</label>
-        <input class="pop-input" id="popName" type="text" placeholder="Ex : Jean Dupont" autocomplete="name">
-      </div>
-      <div class="pop-field">
-        <label class="pop-label">Adresse email</label>
-        <input class="pop-input" id="popEmail" type="email" placeholder="jean@masalle.com" autocomplete="email">
-      </div>
-      <div class="pop-field">
-        <label class="pop-label">Numéro de téléphone</label>
-        <input class="pop-input" id="popPhone" type="tel" placeholder="+229 XX XX XX XX" autocomplete="tel">
-      </div>
-
-      <button class="btn-pop-submit" id="popSubmitBtn" onclick="handlePopupSubmit()">
-        Continuer vers GymPilote →
-      </button>
-      <div class="pop-terms">En continuant, vous acceptez nos <a href="#">Conditions d'utilisation</a> et notre <a href="#">Politique de confidentialité</a>.</div>
-    </div>
-
-    <!-- SUCCESS -->
-    <div class="popup-success" id="popSuccess">
-      <div class="success-icon">✓</div>
-      <div class="success-title">VOUS ÊTES PRÊT !</div>
-      <div class="success-sub" id="successMsg">Votre compte a été créé. Complétez maintenant l'inscription de votre salle pour activer votre plan.</div>
-      <a class="btn-go-app" id="goAppBtn" href="#">Accéder à GymPilote →</a>
+      <a href="#" class="btn-primary btn-xl" href="gympilote-auth.html">Commencez gratuitement →</a>
     </div>
   </div>
 </div>
@@ -739,85 +693,7 @@ window.addEventListener('load',()=>{
   document.querySelectorAll('[data-target]').forEach(el=>counter(el,+el.dataset.target,el.dataset.suffix||''));
 });
 
-/* ===== POPUP LOGIC ===== */
-const PLANS={
-  starter:{label:'Starter',price:'4 900 FCFA/mois'},
-  pro:    {label:'Pro',    price:'9 900 FCFA/mois'},
-  premium:{label:'Premium',price:'15 900 FCFA/mois'}
-};
-let currentPlan='starter';
 
-function openPopup(plan){
-  currentPlan=plan||'starter';
-  selectPlan(currentPlan);
-  document.getElementById('popFormInner').classList.remove('hide');
-  document.getElementById('popSuccess').classList.remove('show');
-  ['popName','popEmail','popPhone'].forEach(id=>document.getElementById(id).value='');
-  const btn=document.getElementById('popSubmitBtn');
-  btn.textContent='Continuer vers GymPilote →';btn.disabled=false;
-  document.body.style.overflow='hidden';
-  document.getElementById('popupOverlay').classList.add('open');
-  setTimeout(()=>document.getElementById('popName').focus(),400);
-}
-
-function closePopup(){
-  document.getElementById('popupOverlay').classList.remove('open');
-  document.body.style.overflow='';
-}
-
-function handleOverlayClick(e){
-  if(e.target===document.getElementById('popupOverlay')||e.target.classList.contains('popup-backdrop'))closePopup();
-}
-
-function selectPlan(plan){
-  currentPlan=plan;
-  document.getElementById('popPlanLabel').textContent=PLANS[plan].label+' — '+PLANS[plan].price;
-  ['starter','pro','premium'].forEach(p=>{
-    const el=document.getElementById('opt-'+p);
-    if(el)el.classList.toggle('selected',p===plan);
-  });
-}
-
-function handlePopupSubmit(){
-  const name =document.getElementById('popName').value.trim();
-  const email=document.getElementById('popEmail').value.trim();
-  const phone=document.getElementById('popPhone').value.trim();
-  if(!name){shake('popName');return;}
-  if(!email||!email.includes('@')){shake('popEmail');return;}
-  if(!phone||phone.replace(/\D/g,'').length<6){shake('popPhone');return;}
-
-  const btn=document.getElementById('popSubmitBtn');
-  btn.textContent='Création du compte…';btn.disabled=true;
-
-  /* Remplace ce setTimeout par ton vrai appel API Supabase */
-  setTimeout(()=>{
-    const appUrl='https://app.gympilote.com/register'
-      +'?plan='+encodeURIComponent(currentPlan)
-      +'&name='+encodeURIComponent(name)
-      +'&email='+encodeURIComponent(email)
-      +'&phone='+encodeURIComponent(phone);
-    document.getElementById('popFormInner').classList.add('hide');
-    const s=document.getElementById('popSuccess');s.classList.add('show');
-    const prenom=name.split(' ')[0];
-    document.getElementById('successMsg').textContent=
-      'Bienvenue '+prenom+' ! Complétez l\'inscription de votre salle pour activer votre plan '+PLANS[currentPlan].label+'.';
-    document.getElementById('goAppBtn').href=appUrl;
-  },1400);
-}
-
-function shake(id){
-  const el=document.getElementById(id);
-  el.style.borderColor='rgba(255,80,80,.7)';
-  el.style.animation='none';
-  requestAnimationFrame(()=>{el.style.animation='shake .4s ease';});
-  el.addEventListener('animationend',()=>{el.style.animation='';},{once:true});
-  el.focus();
-}
-const ss=document.createElement('style');
-ss.textContent='@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}';
-document.head.appendChild(ss);
-
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closePopup();});
 </script>
 </body>
 </html>
